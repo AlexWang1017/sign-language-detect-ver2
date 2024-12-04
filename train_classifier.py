@@ -31,7 +31,7 @@ model = Sequential([
     Flatten(),
     Dense(128, activation='relu'),
     Dropout(0.5),
-    Dense(3, activation='softmax')  # Output layer for 3 classes
+    Dense(26, activation='softmax')  # Output layer for 26 classes
 ])
 
 # Compile the model

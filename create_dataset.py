@@ -4,7 +4,7 @@ import cv2
 
 # Set up directories for loading images
 data_dir = './data/dataset/'
-class_names = ['A', 'B','L']
+class_names = ['A', 'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 image_size = (256, 256)  # Size of images
 
 # Prepare lists to store images and labels

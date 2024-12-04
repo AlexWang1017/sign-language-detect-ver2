@@ -6,7 +6,7 @@ import numpy as np
 # Set up directories for saving images
 data_dir = './data/dataset/'
 os.makedirs(data_dir, exist_ok=True)
-class_names = ['A', 'B','L']
+class_names = ['A', 'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 # Create subdirectories for each class
 for class_name in class_names:

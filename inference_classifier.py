@@ -11,7 +11,7 @@ model_path = os.path.join(data_dir, 'static_gesture_model.h5')
 model = tf.keras.models.load_model(model_path)
 
 # Define class names
-class_names = ['A', 'B', 'L']
+class_names = ['A', 'B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 
 # Initialize webcam
 cap = cv2.VideoCapture(0)
