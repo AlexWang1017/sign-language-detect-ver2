@@ -21,8 +21,8 @@ if not cap.isOpened():
     exit()
 
 # Parameters for collecting images
-num_images =100 # Number of images per class
-image_size = (256, 256)  # Resize images to 64x64 pixels
+num_images =150 # Number of images per class
+image_size = (256, 256)  # Resize images to 256x256 pixels
 
 # Initialize MediaPipe Hands
 mp_hands = mp.solutions.hands
