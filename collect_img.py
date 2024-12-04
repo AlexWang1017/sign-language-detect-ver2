@@ -29,7 +29,7 @@ mp_hands = mp.solutions.hands
 mp_drawing = mp.solutions.drawing_utils
 mp_drawing_styles = mp.solutions.drawing_styles
 
-with mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.5) as hands:
+with mp_hands.Hands(complexity=2,min_detection_confidence=0.7, min_tracking_confidence=0.5) as hands:
     for class_name in class_names:
         print(f"Collecting images for class: {class_name}")
         count = 0
