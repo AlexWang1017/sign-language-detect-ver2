@@ -22,11 +22,11 @@ x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.
 
 # Define the model for static gesture recognition
 model = Sequential([
-    Conv2D(32, (3, 3), activation='relu',padding = 'valid', input_shape=(height, width, channels)),
+    Conv2D(32, (3, 3), activation='relu',input_shape=(height, width, channels)),
     MaxPooling2D((2, 2)),
-    Conv2D(64, (3, 3), activation='relu',padding = 'valid'),
+    Conv2D(64, (3, 3), activation='relu'),
     MaxPooling2D((2, 2)),
-    Conv2D(128, (3, 3), activation='relu',padding = 'valid'),
+    Conv2D(128, (3, 3), activation='relu'),
     MaxPooling2D((2, 2)),
     Flatten(),
     Dense(128, activation='relu'),
@@ -38,7 +38,7 @@ model = Sequential([
 model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Train the model
-epochs = 7
+epochs = 6
 batch_size = 16
 model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=epochs, batch_size=batch_size)
 
