@@ -15,7 +15,7 @@ y_data = np.load(os.path.join(data_dir, 'y_data.npy'))
 num_samples, height, width, channels = x_data.shape
 
 # One-hot encode y_data if necessary
-y_data = tf.keras.utils.to_categorical(y_data, num_classes=3)
+y_data = tf.keras.utils.to_categorical(y_data, num_classes=26)
 
 # Split the dataset into training and testing sets
 x_train, x_test, y_train, y_test = train_test_split(x_data, y_data, test_size=0.2, shuffle=True, random_state=42)
