@@ -6,7 +6,7 @@ import numpy as np
 # Set up directories for saving images
 data_dir = './data/dataset/'
 os.makedirs(data_dir, exist_ok=True)
-class_names = ['A', 'B','L']
+class_names = ['0', '1', '2', '3', '4']
 
 # Create subdirectories for each class
 for class_name in class_names:
@@ -21,8 +21,8 @@ if not cap.isOpened():
     exit()
 
 # Parameters for collecting images
-num_images =100 # Number of images per class
-image_size = (256, 256)  # Resize images to 64x64 pixels
+num_images = 100  # Number of images per class
+image_size = (256, 256)  # Resize images to 256x256 pixels
 
 # Initialize MediaPipe Hands
 mp_hands = mp.solutions.hands
@@ -54,13 +54,38 @@ with mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.5) a
             if results.multi_hand_landmarks:
                 for hand_landmarks in results.multi_hand_landmarks:
                     mp_drawing.draw_landmarks(
-                        frame, hand_landmarks, 
+                        frame, hand_landmarks,
                         mp_hands.HAND_CONNECTIONS,
                         mp_drawing_styles.get_default_hand_landmarks_style(),
                         mp_drawing_styles.get_default_hand_connections_style())
 
+                    # Calculate bounding box for the hand region
+                    H, W, _ = frame.shape
+                    x_min = min(landmark.x for landmark in hand_landmarks.landmark) * W
+                    y_min = min(landmark.y for landmark in hand_landmarks.landmark) * H
+                    x_max = max(landmark.x for landmark in hand_landmarks.landmark) * W
+                    y_max = max(landmark.y for landmark in hand_landmarks.landmark) * H
+
+                    x_min, y_min, x_max, y_max = int(x_min), int(y_min), int(x_max), int(y_max)
+
+                    # Expand the bounding box slightly
+                    margin = 20
+                    x_min = max(0, x_min - margin)
+                    y_min = max(0, y_min - margin)
+                    x_max = min(W, x_max + margin)
+                    y_max = min(H, y_max + margin)
+
+                    # Crop the hand region
+                    hand_region = frame[y_min:y_max, x_min:x_max]
+
+                    # Resize and save the cropped hand region
+                    resized_hand = cv2.resize(hand_region, image_size)
+                    save_path = os.path.join(data_dir, class_name, f"{count}.jpg")
+                    cv2.imwrite(save_path, resized_hand)
+                    count += 1
+
             # Draw instructions on the frame
-            cv2.putText(frame, f"Class: {class_name}, Image: {count + 1}/{num_images}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
+            cv2.putText(frame, f"Class: {class_name}, Image: {count}/{num_images}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2, cv2.LINE_AA)
             cv2.imshow('Collecting Images', frame)
 
             # Wait for user to press 's' to save the image
@@ -72,7 +97,6 @@ with mp_hands.Hands(min_detection_confidence=0.7, min_tracking_confidence=0.5) a
                 cv2.imwrite(save_path, resized_frame)
                 count += 1
 
-            # Exit if 'q' is pressed
             elif key == ord('q'):
                 break
 
