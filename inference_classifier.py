@@ -7,11 +7,11 @@ import time
 
 # Load the trained model
 data_dir = './data/dataset/'
-model_path = os.path.join(data_dir, 'static_gesture_model.h5')
+model_path = os.path.join(data_dir, 'static_gesture_model_20_classes.h5')
 model = tf.keras.models.load_model(model_path)
 
 # Define class names
-class_names = ['0', '1','2','3', '4','5','6','7','8','9']
+class_names = [f'left_{i}' for i in range(10)] + [f'right_{i}' for i in range(10)]
 
 # Initialize webcam
 cap = cv2.VideoCapture(0)
@@ -78,13 +78,13 @@ try:
                     hand_region_normalized = hand_region_resized / 255.0
 
                     # Add batch dimension for prediction
-                    input_data = np.expand_dims(hand_region_normalized, axis=0)  # Shape: (1, 512, 512, 3)
+                    input_data = np.expand_dims(hand_region_normalized, axis=0)  # Shape: (1, 256, 256, 3)
 
                     # Make a prediction
                     try:
                         prediction = model.predict(input_data)
                         confidence = np.max(prediction[0])
-                        if confidence > 0.5:
+                        if confidence > 0.4:
                             predicted_label = np.argmax(prediction[0])
                             predicted_character = class_names[predicted_label]
 
