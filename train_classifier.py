@@ -41,7 +41,7 @@ model = Sequential([
 model.compile(optimizer=Adam(learning_rate=0.001), loss='categorical_crossentropy', metrics=['accuracy'])
 
 # Train the model
-epochs =7
+epochs =5
 batch_size = 32
 model.fit(x_train, y_train, validation_data=(x_test, y_test), epochs=epochs, batch_size=batch_size)
 
